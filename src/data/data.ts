@@ -1,4 +1,4 @@
-import {InputData, TrainingIterationData} from "../types/types.ts";
+import { InputData, TrainingIterationData } from '../types/types.ts'
 
 export const inputDataExample1: InputData = [
   { feature: 3.5, label: 18 },
@@ -7,7 +7,7 @@ export const inputDataExample1: InputData = [
   { feature: 3.43, label: 16 },
   { feature: 4.34, label: 15 },
   { feature: 4.42, label: 14 },
-  { feature: 2.37, label: 24 }
+  { feature: 2.37, label: 24 },
 ]
 
 export const initialIterationData: TrainingIterationData = {
@@ -17,17 +17,17 @@ export const initialIterationData: TrainingIterationData = {
   mseReduction: null,
   iteration: 1,
   selected: false,
-};
+}
 
 export const REPORTING = {
-  basic: "basic",
-  verbose: "verbose",
-  full: "full"
-} as const;
+  basic: 'basic',
+  verbose: 'verbose',
+  full: 'full',
+} as const
 
 export const ORDINAL_INDICATOR = {
-  first: "st",
-  second: "nd",
-  third: "rd",
-  nth: "th"
-} as const;
+  first: 'st',
+  second: 'nd',
+  third: 'rd',
+  nth: 'th',
+} as const
