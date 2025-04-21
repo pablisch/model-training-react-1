@@ -1,7 +1,6 @@
 import './Navbar.css';
 import * as React from "react";
 import {ReportingLevel} from "../../types/types.ts";
-import {train} from "../../util/modelTraining.ts";
 
 interface NavbarProps {
   iterations: number;
@@ -10,9 +9,10 @@ interface NavbarProps {
   setThreshold: (e: React.ChangeEvent<HTMLInputElement>) => void;
   reporting: ReportingLevel;
   setReportLevel: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onTrain: () => void;
 }
 
-const Navbar = ({ iterations, setIterations, threshold, setThreshold, reporting, setReportLevel }: NavbarProps) => {
+const Navbar = ({ iterations, setIterations, threshold, setThreshold, reporting, setReportLevel, onTrain }: NavbarProps) => {
   return (
     <nav>
       <div className="nav-container">
@@ -52,7 +52,7 @@ const Navbar = ({ iterations, setIterations, threshold, setThreshold, reporting,
             </select>
           </label>
           <button className="nav-btn"
-                  onClick={() => train(iterations, threshold, reporting)}
+                  onClick={onTrain}
           
           >Train</button>
         </div>

@@ -1,17 +1,3 @@
-// interface Example {
-//   feature: number;
-//   label: number;
-//   loss: number | null;
-// }
-//
-// interface SampleData {
-//   currentMse: number | null;
-//   previousMse: number | null;
-//   weight: number;
-//   bias: number;
-//   examples: Example[];
-// }
-
 import {InputData, TrainingIterationData} from "../types/types.ts";
 
 export const inputDataExample1: InputData = [
@@ -28,15 +14,10 @@ export const initialIterationData: TrainingIterationData = {
   mse: null,
   weight: 0,
   bias: 0,
-  lossReduction: null,
+  mseReduction: null,
+  iteration: 1,
+  selected: false,
 };
-
-// export const exampleOutputData: TrainingData = {
-//   mse: 0,
-//   previousMse: 0,
-//   weight: 0,
-//   bias: 0,
-// };
 
 export const REPORTING = {
   basic: "basic",

@@ -2,9 +2,10 @@ import './App.css'
 // import {train} from "./util/modelTraining.ts";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import {REPORTING} from "./data/data.ts";
-import {ReportingLevel} from "./types/types.ts";
+import {ReportingLevel, TrainingData} from "./types/types.ts";
 import {useState} from "react";
 import * as React from "react";
+import {train} from "./util/modelTraining.ts";
 
 // const data: InputData = sampleData
 const defaultIterations: number = 10000
@@ -29,6 +30,11 @@ function App() {
     setReporting(e.target.value as ReportingLevel)
   }
   
+  const handleModelTraining = () => {
+    const trainingData: TrainingData = train(numOfIterations, convergenceThreshold, reporting)
+    console.log("Training data", trainingData)
+  }
+  
   // train(numOfIterations, convergenceThreshold, reporting)
   return (
     <div className="App">
@@ -39,6 +45,7 @@ function App() {
         setThreshold={handleThresholdChange}
         reporting={reporting}
         setReportLevel={handleReportingChange}
+        onTrain = {handleModelTraining}
       />
     
     </div>

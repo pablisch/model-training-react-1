@@ -6,12 +6,12 @@ interface Example {
 export type InputData = Example[]
 
 export interface TrainingIterationData {
-  // examples: { feature: number; label: number; loss: number | null }[];
   weight: number;
   bias: number;
   mse: number | null;
-  // previousMse: number | null;
-  lossReduction: number | null;
+  mseReduction: number | null;
+  iteration: number;
+  selected: boolean;
 }
 
 export type TrainingData = TrainingIterationData[]
