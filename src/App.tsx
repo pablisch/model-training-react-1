@@ -1,12 +1,13 @@
 import './App.css'
 // import {train} from "./util/modelTraining.ts";
 import Navbar from './components/Navbar/Navbar.tsx'
-import { REPORTING } from './data/data.ts'
+import { inputDataExample1, REPORTING } from './data/data.ts'
 import { ReportingLevel, TrainingData, TrainingResult } from './types/types.ts'
 import { useState } from 'react'
 import * as React from 'react'
 import { train } from './util/modelTraining.ts'
 import Results from './components/Results/Results.tsx'
+import { Graph } from './components/Graph/Graph.tsx'
 
 // const data: InputData = sampleData
 const defaultIterations: number = 3
@@ -57,12 +58,20 @@ function App() {
         setReportLevel={handleReportingChange}
         onTrain={handleModelTraining}
       />
+      {trainingData.length > 0 && (
+        <Graph
+          data={inputDataExample1}
+          weight={trainingData[trainingData.length - 1].weight}
+          bias={trainingData[trainingData.length - 1].bias}
+        />
+      )}
       <Results
         trainingData={trainingData}
         isConverged={isConverged}
         convergenceThreshold={convergenceThreshold}
         reporting={reporting}
       />
+      {/*<h2>Data and Regression Line</h2>*/}
     </div>
   )
 }

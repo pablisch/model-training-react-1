@@ -68,7 +68,7 @@ const Results = ({
         <>
           Converged after <strong>{trainingData.length}</strong> iterations with
           an <strong>MSE reduction</strong> of{' '}
-          <strong>{finalIteration.mseReduction.toFixed(4)}</strong>.
+          <strong>{finalIteration.mseReduction.toFixed(7)}</strong>.
         </>
       )
     }
@@ -82,7 +82,7 @@ const Results = ({
           The <strong>convergence threshold</strong> was set to{' '}
           <strong>{convergenceThreshold}</strong> and the lowest{' '}
           <strong>MSE reduction</strong> was{' '}
-          <strong>{lowestMseReductionIteration.mseReduction.toFixed(4)}</strong>{' '}
+          <strong>{lowestMseReductionIteration.mseReduction.toFixed(7)}</strong>{' '}
           on the{' '}
           <strong>
             {lowestMseReductionIteration.iteration}
@@ -112,12 +112,12 @@ const Results = ({
 
   return (
     <div className="results-container">
+      <div className="result-conclusion">{resultConclusionMessage}</div>
       <div className="results-list-container">
         {trainingData.length > 0
           ? resultsRows
           : 'Click train to start training'}
       </div>
-      <div className="result-conclusion">{resultConclusionMessage}</div>
     </div>
   )
 }
