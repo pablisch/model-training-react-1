@@ -9,7 +9,7 @@ import {
 } from '../../types/types.ts'
 import ResultsRow from './ResultsRow.tsx'
 import './Results.css'
-import { ORDINAL_INDICATOR } from '../../data/data.ts'
+import { ORDINAL_INDICATOR, REPORTING } from '../../data/data.ts'
 
 interface ResultsProps {
   trainingData: TrainingData
@@ -58,28 +58,52 @@ const Results = ({
 
   const resultConclusionMessage = (() => {
     const finalIteration = trainingData[trainingData.length - 1]
+
     if (
       isConverged &&
       finalIteration !== null &&
       finalIteration.mseReduction !== null
     ) {
-      return `Converged after ${trainingData.length} iterations with an MSE reduction of ${finalIteration.mseReduction ? finalIteration.mseReduction.toFixed(4) : 'N/A'}`
+      return (
+        <>
+          Converged after <strong>{trainingData.length}</strong> iterations with
+          an <strong>MSE reduction</strong> of{' '}
+          <strong>{finalIteration.mseReduction.toFixed(4)}</strong>.
+        </>
+      )
     }
+
     if (lowestMseReductionIteration !== null) {
-      return `The model did not converge after ${trainingData.length} iterations.\nThe convergence threshold was set to ${convergenceThreshold} and the lowest MSE reduction was ${lowestMseReductionIteration.mseReduction.toFixed(4)} on the ${lowestMseReductionIteration.iteration}${ordinalIndicator} iteration.`
+      return (
+        <>
+          The model did <strong>not</strong> converge after{' '}
+          <strong>{trainingData.length}</strong> iterations.
+          <br />
+          The <strong>convergence threshold</strong> was set to{' '}
+          <strong>{convergenceThreshold}</strong> and the lowest{' '}
+          <strong>MSE reduction</strong> was{' '}
+          <strong>{lowestMseReductionIteration.mseReduction.toFixed(4)}</strong>{' '}
+          on the{' '}
+          <strong>
+            {lowestMseReductionIteration.iteration}
+            {ordinalIndicator}
+          </strong>{' '}
+          iteration.
+        </>
+      )
     }
 
     return ''
   })()
 
   const resultsRows = (() => {
-    if (reporting === 'full') {
+    if (reporting === REPORTING.full) {
       return trainingData.map(row => {
         return <ResultsRow key={row.iteration} rowData={row} />
       })
-    } else if (reporting === 'verbose') {
+    } else if (reporting === REPORTING.verbose) {
       return trainingData.map(row => {
-        return <ResultsRow key={row.iteration + 1} rowData={row} />
+        return <ResultsRow key={row.iteration} rowData={row} />
       })
     } else {
       return null

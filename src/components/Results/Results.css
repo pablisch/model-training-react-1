@@ -3,5 +3,38 @@
 }
 
 .result-conclusion {
+  background: #ddd;
   margin-top: 20px;
+  padding: 15px;
+}
+
+.result-row-container {
+  display: flex;
+  padding: 2px 20px
+}
+
+.result-row-section {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 40px;
+}
+
+.iteration-section {
+  width: 100px;
+}
+
+.mse-section {
+  width: 110px;
+}
+
+.weight-section {
+  width: 110px;
+}
+
+.bias-section {
+  width: 100px;
+}
+
+.even-row {
+  background: var(--even-row-background);
 }
