@@ -38,3 +38,7 @@
 .even-row {
   background: var(--even-row-background);
 }
+
+.ellipsis {
+  padding: 20px;
+}
