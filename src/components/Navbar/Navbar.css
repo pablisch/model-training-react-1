@@ -1,28 +1,28 @@
 nav {
-    background: #ccc;
-    height: 70px;
+  background: #ccc;
+  height: 70px;
 }
 
 .nav-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .nav-input {
-    width: 70px;
-    margin-left: 5px;
+  width: 70px;
+  margin-left: 5px;
 }
 
 .nav-label {
-    margin-right: 5px;
-    margin-left: 25px;
-    font-size: 0.8rem;
+  margin-right: 5px;
+  margin-left: 25px;
+  font-size: 0.8rem;
 }
 
 .nav-btn {
-    margin-left: 15px;
+  margin-left: 15px;
 }

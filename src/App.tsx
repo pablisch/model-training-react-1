@@ -1,12 +1,12 @@
 import './App.css'
 // import {train} from "./util/modelTraining.ts";
-import Navbar from "./components/Navbar/Navbar.tsx";
-import {REPORTING} from "./data/data.ts";
-import {ReportingLevel, TrainingData, TrainingResult} from "./types/types.ts";
-import {useState} from "react";
-import * as React from "react";
-import {train} from "./util/modelTraining.ts";
-import Results from "./components/Results/Results.tsx";
+import Navbar from './components/Navbar/Navbar.tsx'
+import { REPORTING } from './data/data.ts'
+import { ReportingLevel, TrainingData, TrainingResult } from './types/types.ts'
+import { useState } from 'react'
+import * as React from 'react'
+import { train } from './util/modelTraining.ts'
+import Results from './components/Results/Results.tsx'
 
 // const data: InputData = sampleData
 const defaultIterations: number = 3
@@ -16,29 +16,36 @@ const defaultReporting: ReportingLevel = REPORTING.verbose
 function App() {
   const [isConverged, setIsConverged] = useState<boolean>(false)
   const [trainingData, setTrainingData] = useState<TrainingData>([])
-  const [numOfIterations, setNumOfIterations] = useState<number>(defaultIterations)
-  const [convergenceThreshold, setConvergenceThreshold] = useState<number>(defaultConvergenceThreshold)
+  const [numOfIterations, setNumOfIterations] =
+    useState<number>(defaultIterations)
+  const [convergenceThreshold, setConvergenceThreshold] = useState<number>(
+    defaultConvergenceThreshold
+  )
   const [reporting, setReporting] = useState<ReportingLevel>(defaultReporting)
-  
+
   const handleIterationsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumOfIterations(Number(e.target.value))
   }
-  
+
   const handleThresholdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConvergenceThreshold(Number(e.target.value))
   }
-  
+
   const handleReportingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setReporting(e.target.value as ReportingLevel)
   }
-  
+
   const handleModelTraining = () => {
-    const trainingResult: TrainingResult = train(numOfIterations, convergenceThreshold, reporting)
+    const trainingResult: TrainingResult = train(
+      numOfIterations,
+      convergenceThreshold,
+      reporting
+    )
     setTrainingData(trainingResult.trainingData)
     setIsConverged(trainingResult.converged)
-    console.log("Training data", trainingData)
+    console.log('Training data', trainingData)
   }
-  
+
   return (
     <div className="App">
       <Navbar
@@ -48,9 +55,13 @@ function App() {
         setThreshold={handleThresholdChange}
         reporting={reporting}
         setReportLevel={handleReportingChange}
-        onTrain = {handleModelTraining}
+        onTrain={handleModelTraining}
       />
-      <Results trainingData={trainingData} isConverged={isConverged} convergenceThreshold={convergenceThreshold} />
+      <Results
+        trainingData={trainingData}
+        isConverged={isConverged}
+        convergenceThreshold={convergenceThreshold}
+      />
     </div>
   )
 }
