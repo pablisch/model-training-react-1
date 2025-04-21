@@ -10,7 +10,7 @@ import Results from './components/Results/Results.tsx'
 import { Graph } from './components/Graph/Graph.tsx'
 
 // const data: InputData = sampleData
-const defaultIterations: number = 3
+const defaultIterations: number = 10000
 const defaultConvergenceThreshold: number = 0.001
 const defaultReporting: ReportingLevel = REPORTING.verbose
 

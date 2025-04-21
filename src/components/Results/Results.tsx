@@ -96,30 +96,16 @@ const Results = ({
     return ''
   })()
 
-  // const resultsRows = (() => {
-  //   if (reporting === REPORTING.full) {
-  //     return trainingData.map(row => {
-  //       return <ResultsRow key={row.iteration} rowData={row} />
-  //     })
-  //   } else if (reporting === REPORTING.verbose) {
-  //     return trainingData.map(row => {
-  //       return <ResultsRow key={row.iteration} rowData={row} />
-  //     })
-  //   } else {
-  //     return null
-  //   }
-  // })()
-  
   const resultsRows = (() => {
     if (reporting === REPORTING.full) {
       return trainingData.map(row => {
-        return <ResultsRow key={row.iteration} rowData={row} />;
-      });
+        return <ResultsRow key={row.iteration} rowData={row} />
+      })
     } else if (reporting === REPORTING.verbose) {
-      const firstIterations = trainingData.slice(0, 10);
-      const lastIterations = trainingData.slice(-25);
-      const totalIterations = trainingData.length;
-      
+      const firstIterations = trainingData.slice(0, 10)
+      const lastIterations = trainingData.slice(-25)
+      const totalIterations = trainingData.length
+
       // If there are more than 25 iterations, add ellipses in the middle
       if (totalIterations > 40) {
         return (
@@ -127,23 +113,24 @@ const Results = ({
             {firstIterations.map(row => (
               <ResultsRow key={row.iteration} rowData={row} />
             ))}
-            <div className="ellipsis">... set reporting to <strong>Full</strong> to see every iteration</div>
+            <div className="ellipsis">
+              ... set reporting to <strong>Full</strong> to see every iteration
+            </div>
             {lastIterations.map(row => (
               <ResultsRow key={row.iteration} rowData={row} />
             ))}
           </>
-        );
+        )
       } else {
         return trainingData.map(row => {
-          return <ResultsRow key={row.iteration} rowData={row} />;
-        });
+          return <ResultsRow key={row.iteration} rowData={row} />
+        })
       }
     } else {
-      return null;
+      return null
     }
-  })();
-  
-  
+  })()
+
   return (
     <div className="results-container">
       <div className="result-conclusion">{resultConclusionMessage}</div>
