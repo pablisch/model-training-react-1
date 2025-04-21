@@ -6,6 +6,7 @@ import {ReportingLevel, TrainingData} from "./types/types.ts";
 import {useState} from "react";
 import * as React from "react";
 import {train} from "./util/modelTraining.ts";
+import Results from "./components/Results/Results.tsx";
 
 // const data: InputData = sampleData
 const defaultIterations: number = 10000
@@ -13,7 +14,7 @@ const defaultConvergenceThreshold: number = 0.001
 const defaultReporting: ReportingLevel = REPORTING.basic
 
 function App() {
-  // const [trainingData, setTrainingData] = useState<TrainingData>(sampleData)
+  const [trainingData, setTrainingData] = useState<TrainingData>([])
   const [numOfIterations, setNumOfIterations] = useState<number>(defaultIterations)
   const [convergenceThreshold, setConvergenceThreshold] = useState<number>(defaultConvergenceThreshold)
   const [reporting, setReporting] = useState<ReportingLevel>(defaultReporting)
@@ -32,6 +33,7 @@ function App() {
   
   const handleModelTraining = () => {
     const trainingData: TrainingData = train(numOfIterations, convergenceThreshold, reporting)
+    setTrainingData(trainingData)
     console.log("Training data", trainingData)
   }
   
@@ -47,7 +49,7 @@ function App() {
         setReportLevel={handleReportingChange}
         onTrain = {handleModelTraining}
       />
-    
+      <Results trainingData={trainingData} />
     </div>
   )
 }
