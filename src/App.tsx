@@ -61,6 +61,7 @@ function App() {
         trainingData={trainingData}
         isConverged={isConverged}
         convergenceThreshold={convergenceThreshold}
+        reporting={reporting}
       />
     </div>
   )
