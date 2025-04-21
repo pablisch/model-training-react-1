@@ -2,18 +2,20 @@ import './App.css'
 // import {train} from "./util/modelTraining.ts";
 import Navbar from "./components/Navbar/Navbar.tsx";
 import {REPORTING} from "./data/data.ts";
-import {ReportingLevel, TrainingData} from "./types/types.ts";
+import {ReportingLevel, TrainingData, TrainingResult} from "./types/types.ts";
 import {useState} from "react";
 import * as React from "react";
 import {train} from "./util/modelTraining.ts";
+import Results from "./components/Results/Results.tsx";
 
 // const data: InputData = sampleData
-const defaultIterations: number = 10000
+const defaultIterations: number = 3
 const defaultConvergenceThreshold: number = 0.001
-const defaultReporting: ReportingLevel = REPORTING.basic
+const defaultReporting: ReportingLevel = REPORTING.verbose
 
 function App() {
-  // const [trainingData, setTrainingData] = useState<TrainingData>(sampleData)
+  const [isConverged, setIsConverged] = useState<boolean>(false)
+  const [trainingData, setTrainingData] = useState<TrainingData>([])
   const [numOfIterations, setNumOfIterations] = useState<number>(defaultIterations)
   const [convergenceThreshold, setConvergenceThreshold] = useState<number>(defaultConvergenceThreshold)
   const [reporting, setReporting] = useState<ReportingLevel>(defaultReporting)
@@ -31,11 +33,12 @@ function App() {
   }
   
   const handleModelTraining = () => {
-    const trainingData: TrainingData = train(numOfIterations, convergenceThreshold, reporting)
+    const trainingResult: TrainingResult = train(numOfIterations, convergenceThreshold, reporting)
+    setTrainingData(trainingResult.trainingData)
+    setIsConverged(trainingResult.converged)
     console.log("Training data", trainingData)
   }
   
-  // train(numOfIterations, convergenceThreshold, reporting)
   return (
     <div className="App">
       <Navbar
@@ -47,7 +50,7 @@ function App() {
         setReportLevel={handleReportingChange}
         onTrain = {handleModelTraining}
       />
-    
+      <Results trainingData={trainingData} isConverged={isConverged} convergenceThreshold={convergenceThreshold} />
     </div>
   )
 }

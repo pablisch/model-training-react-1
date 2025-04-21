@@ -1,15 +1,16 @@
-import {REPORTING, inputDataExample1, initialIterationData} from "../data/data"
+import {inputDataExample1, initialIterationData} from "../data/data"
 import {InputData, ReportingLevel, TrainingData, TrainingIterationData} from "../types/types.ts";
 
 
 const inputData: InputData = inputDataExample1
 
-const defaultIterations = 3
-const defaultConvergenceThreshold = 0.001
-const defaultReporting = REPORTING.verbose
+// const defaultIterations = 3
+// const defaultConvergenceThreshold = 0.001
+// const defaultReporting = REPORTING.verbose
 
-const train = (numOfIterations: number = defaultIterations, convergenceThreshold: number = defaultConvergenceThreshold, reporting: ReportingLevel = defaultReporting) => {
+const train = (numOfIterations: number, convergenceThreshold: number, reporting: ReportingLevel) => {
     const trainingData: TrainingData = [{...initialIterationData}]
+    let converged = false
     console.log("starting training", numOfIterations, convergenceThreshold, reporting, "...")
     for (let i = 0; i < numOfIterations; i++) {
     const currentIterationData: TrainingIterationData = trainingData[trainingData.length - 1]
@@ -32,6 +33,7 @@ const train = (numOfIterations: number = defaultIterations, convergenceThreshold
         
         if (currentIterationData.mseReduction !== null && currentIterationData.mseReduction < convergenceThreshold) {
             console.log(`Converged after ${i} iterations with MSE: ${currentIterationData.mse} and MSE reduction: ${currentIterationData.mseReduction}`)
+            converged = true
             break
         }
             
@@ -47,7 +49,7 @@ const train = (numOfIterations: number = defaultIterations, convergenceThreshold
      
     }
     
-    return trainingData
+    return {trainingData: trainingData, converged: converged}
 }
 
 export { train }

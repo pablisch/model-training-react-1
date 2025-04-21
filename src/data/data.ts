@@ -24,3 +24,10 @@ export const REPORTING = {
   verbose: "verbose",
   full: "full"
 } as const;
+
+export const ORDINAL_INDICATOR = {
+  first: "st",
+  second: "nd",
+  third: "rd",
+  nth: "th"
+} as const;
