@@ -16,6 +16,7 @@ interface ResultsProps {
   isConverged: boolean
   convergenceThreshold: number
   reporting: ReportingLevel
+  onToggleSelectRow: (iteration: number) => void
 }
 
 const Results = ({
@@ -23,6 +24,7 @@ const Results = ({
   isConverged,
   convergenceThreshold,
   reporting,
+  onToggleSelectRow,
 }: ResultsProps) => {
   let lowestMseReductionIteration: NonNullTrainingIterationData | null = null
   let ordinalIndicator: OrdinalIndicator = ORDINAL_INDICATOR.nth
@@ -68,7 +70,7 @@ const Results = ({
         <>
           Converged after <strong>{trainingData.length}</strong> iterations with
           an <strong>MSE reduction</strong> of{' '}
-          <strong>{finalIteration.mseReduction.toFixed(4)}</strong>.
+          <strong>{finalIteration.mseReduction.toFixed(7)}</strong>.
         </>
       )
     }
@@ -82,7 +84,7 @@ const Results = ({
           The <strong>convergence threshold</strong> was set to{' '}
           <strong>{convergenceThreshold}</strong> and the lowest{' '}
           <strong>MSE reduction</strong> was{' '}
-          <strong>{lowestMseReductionIteration.mseReduction.toFixed(4)}</strong>{' '}
+          <strong>{lowestMseReductionIteration.mseReduction.toFixed(7)}</strong>{' '}
           on the{' '}
           <strong>
             {lowestMseReductionIteration.iteration}
@@ -99,12 +101,53 @@ const Results = ({
   const resultsRows = (() => {
     if (reporting === REPORTING.full) {
       return trainingData.map(row => {
-        return <ResultsRow key={row.iteration} rowData={row} />
+        return (
+          <ResultsRow
+            key={row.iteration}
+            rowData={row}
+            onToggleSelectRow={onToggleSelectRow}
+          />
+        )
       })
     } else if (reporting === REPORTING.verbose) {
-      return trainingData.map(row => {
-        return <ResultsRow key={row.iteration} rowData={row} />
-      })
+      const firstIterations = trainingData.slice(0, 10)
+      const lastIterations = trainingData.slice(-25)
+      const totalIterations = trainingData.length
+
+      // If there are more than 25 iterations, add ellipses in the middle
+      if (totalIterations > 40) {
+        return (
+          <>
+            {firstIterations.map(row => (
+              <ResultsRow
+                key={row.iteration}
+                rowData={row}
+                onToggleSelectRow={onToggleSelectRow}
+              />
+            ))}
+            <div className="ellipsis">
+              ... set reporting to <strong>Full</strong> to see every iteration
+            </div>
+            {lastIterations.map(row => (
+              <ResultsRow
+                key={row.iteration}
+                rowData={row}
+                onToggleSelectRow={onToggleSelectRow}
+              />
+            ))}
+          </>
+        )
+      } else {
+        return trainingData.map(row => {
+          return (
+            <ResultsRow
+              key={row.iteration}
+              rowData={row}
+              onToggleSelectRow={onToggleSelectRow}
+            />
+          )
+        })
+      }
     } else {
       return null
     }
@@ -112,12 +155,14 @@ const Results = ({
 
   return (
     <div className="results-container">
+      {trainingData.length ? (
+        <div className="result-conclusion">{resultConclusionMessage}</div>
+      ) : null}
       <div className="results-list-container">
         {trainingData.length > 0
           ? resultsRows
           : 'Click train to start training'}
       </div>
-      <div className="result-conclusion">{resultConclusionMessage}</div>
     </div>
   )
 }

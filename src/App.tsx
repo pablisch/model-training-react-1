@@ -1,15 +1,16 @@
 import './App.css'
 // import {train} from "./util/modelTraining.ts";
 import Navbar from './components/Navbar/Navbar.tsx'
-import { REPORTING } from './data/data.ts'
+import { inputDataExample1, REPORTING } from './data/data.ts'
 import { ReportingLevel, TrainingData, TrainingResult } from './types/types.ts'
 import { useState } from 'react'
 import * as React from 'react'
 import { train } from './util/modelTraining.ts'
 import Results from './components/Results/Results.tsx'
+import MainGraph from './components/Graph/MainGraph.tsx'
 
 // const data: InputData = sampleData
-const defaultIterations: number = 3
+const defaultIterations: number = 10000
 const defaultConvergenceThreshold: number = 0.001
 const defaultReporting: ReportingLevel = REPORTING.verbose
 
@@ -46,6 +47,14 @@ function App() {
     console.log('Training data', trainingData)
   }
 
+  const handleToggleSelectRow = (iteration: number) => {
+    setTrainingData(prev =>
+      prev.map(row =>
+        row.iteration === iteration ? { ...row, selected: !row.selected } : row
+      )
+    )
+  }
+
   return (
     <div className="App">
       <Navbar
@@ -57,12 +66,21 @@ function App() {
         setReportLevel={handleReportingChange}
         onTrain={handleModelTraining}
       />
+      {trainingData.length > 0 && (
+        <MainGraph
+          inputData={inputDataExample1}
+          weight={trainingData[trainingData.length - 1].weight}
+          bias={trainingData[trainingData.length - 1].bias}
+        />
+      )}
       <Results
         trainingData={trainingData}
         isConverged={isConverged}
         convergenceThreshold={convergenceThreshold}
         reporting={reporting}
+        onToggleSelectRow={handleToggleSelectRow}
       />
+      {/*<h2>Data and Regression Line</h2>*/}
     </div>
   )
 }
