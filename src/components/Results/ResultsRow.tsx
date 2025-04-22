@@ -13,7 +13,6 @@ const ResultsRow = ({ rowData }: ResultsRowProps) => {
       className={`result-row-container ${rowData.iteration % 2 === 0 ? 'even-row' : ''}`}
     >
       <div className={`result-row-section iteration-section`}>
-        
         <p>Iteration:</p>
         <p>
           <strong>{rowData.iteration}</strong>

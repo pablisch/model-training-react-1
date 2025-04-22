@@ -133,7 +133,9 @@ const Results = ({
 
   return (
     <div className="results-container">
-      <div className="result-conclusion">{resultConclusionMessage}</div>
+      {trainingData.length ? (
+        <div className="result-conclusion">{resultConclusionMessage}</div>
+      ) : null}
       <div className="results-list-container">
         {trainingData.length > 0
           ? resultsRows

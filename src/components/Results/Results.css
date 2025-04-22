@@ -3,9 +3,9 @@
 }
 
 .result-conclusion {
-  background: #ddd;
-  margin-top: 20px;
-  padding: 15px;
+  background: var(--even-row-background);
+  margin: 30px auto;
+  padding: 25px;
 }
 
 .result-row-container {

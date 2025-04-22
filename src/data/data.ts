@@ -1,14 +1,18 @@
 import { InputData, TrainingIterationData } from '../types/types.ts'
 
-export const inputDataExample1: InputData = [
-  { feature: 3.5, label: 18 },
-  { feature: 3.69, label: 15 },
-  { feature: 3.44, label: 18 },
-  { feature: 3.43, label: 16 },
-  { feature: 4.34, label: 15 },
-  { feature: 4.42, label: 14 },
-  { feature: 2.37, label: 24 },
-]
+export const inputDataExample1: InputData = {
+  featureLabel: 'weight/pounds(1000s)',
+  labelLabel: 'mpg',
+  data: [
+    { feature: 3.5, label: 18 },
+    { feature: 3.69, label: 15 },
+    { feature: 3.44, label: 18 },
+    { feature: 3.43, label: 16 },
+    { feature: 4.34, label: 15 },
+    { feature: 4.42, label: 14 },
+    { feature: 2.37, label: 24 },
+  ],
+}
 
 export const initialIterationData: TrainingIterationData = {
   mse: null,

@@ -7,7 +7,7 @@ import { useState } from 'react'
 import * as React from 'react'
 import { train } from './util/modelTraining.ts'
 import Results from './components/Results/Results.tsx'
-import { Graph } from './components/Graph/Graph.tsx'
+import MainGraph from './components/Graph/MainGraph.tsx'
 
 // const data: InputData = sampleData
 const defaultIterations: number = 10000
@@ -59,8 +59,8 @@ function App() {
         onTrain={handleModelTraining}
       />
       {trainingData.length > 0 && (
-        <Graph
-          data={inputDataExample1}
+        <MainGraph
+          inputData={inputDataExample1}
           weight={trainingData[trainingData.length - 1].weight}
           bias={trainingData[trainingData.length - 1].bias}
         />

@@ -3,7 +3,13 @@ interface Example {
   label: number
 }
 
-export type InputData = Example[]
+export interface InputData {
+  featureLabel: string
+  labelLabel: string
+  data: Example[]
+}
+
+// export type InputData = Example[]
 
 export interface TrainingIterationData {
   weight: number

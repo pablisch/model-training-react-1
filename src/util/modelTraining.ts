@@ -8,15 +8,12 @@ import {
 
 const inputData: InputData = inputDataExample1
 
-// const defaultIterations = 3
-// const defaultConvergenceThreshold = 0.001
-// const defaultReporting = REPORTING.verbose
-
 const train = (
   numOfIterations: number,
   convergenceThreshold: number,
   reporting: ReportingLevel
 ) => {
+  const data = inputData.data
   const trainingData: TrainingData = [{ ...initialIterationData }]
   let converged = false
   console.log(
@@ -35,14 +32,14 @@ const train = (
     const bias = currentIterationData.bias
     const previousMse = i > 0 ? trainingData[i - 1].mse : null
     const losses = []
-    for (let j = 0; j < inputData.length; j++) {
-      const example = inputData[j]
+    for (let j = 0; j < data.length; j++) {
+      const example = data[j]
       const prediction = weight * example.feature + bias
       losses.push(prediction - example.label)
     }
     const loss2 = losses.reduce((acc, curr) => acc + Math.pow(curr ?? 0, 2), 0)
 
-    currentIterationData.mse = loss2 / inputData.length
+    currentIterationData.mse = loss2 / data.length
     currentIterationData.mseReduction =
       previousMse !== null
         ? Math.abs(currentIterationData.mse - previousMse)
@@ -60,17 +57,17 @@ const train = (
     }
 
     const weightDerivatives = losses.reduce(
-      (acc, loss, index) => acc + (loss ?? 0) * inputData[index].feature * 2,
+      (acc, loss, index) => acc + (loss ?? 0) * data[index].feature * 2,
       0
     )
-    const meanWeightDerivative = weightDerivatives / inputData.length
+    const meanWeightDerivative = weightDerivatives / data.length
     nextIterationData.weight -= meanWeightDerivative * 0.01
 
     const biasDerivatives = losses.reduce(
       (acc, loss) => acc + (loss ?? 0) * 2,
       0
     )
-    const meanBiasDerivative = biasDerivatives / inputData.length
+    const meanBiasDerivative = biasDerivatives / data.length
     nextIterationData.bias -= meanBiasDerivative * 0.01
 
     if (i + 1 < numOfIterations) trainingData.push(nextIterationData)

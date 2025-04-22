@@ -9,16 +9,18 @@ import {
   Tooltip,
   Legend,
 } from 'recharts'
+import { InputData } from '../../types/types.ts'
 
-type DataPoint = { feature: number; label: number }
+// type DataPoint = { feature: number; label: number }
 
 type Props = {
-  data: DataPoint[]
+  inputData: InputData
   weight: number
   bias: number
 }
 
-export const Graph: React.FC<Props> = ({ data, weight, bias }) => {
+export const Graph: React.FC<Props> = ({ inputData, weight, bias }) => {
+  const data = inputData.data
   // Extract feature and label values
   const features = data.map(d => d.feature)
   const labels = data.map(d => d.label)
@@ -76,7 +78,7 @@ export const Graph: React.FC<Props> = ({ data, weight, bias }) => {
         <Legend />
 
         {/* Data points */}
-        <Scatter name="Data" data={data} fill="#8884d8" />
+        <Scatter name="Data points" data={data} fill="#8884d8" />
 
         {/* Regression line */}
         <Scatter
