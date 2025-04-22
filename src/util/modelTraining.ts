@@ -53,6 +53,7 @@ const train = (
         `Converged after ${i} iterations with MSE: ${currentIterationData.mse} and MSE reduction: ${currentIterationData.mseReduction}`
       )
       converged = true
+      currentIterationData.selected = true
       break
     }
 
@@ -70,6 +71,7 @@ const train = (
     const meanBiasDerivative = biasDerivatives / data.length
     nextIterationData.bias -= meanBiasDerivative * 0.01
 
+    if (i + 1 === numOfIterations) currentIterationData.selected = true
     if (i + 1 < numOfIterations) trainingData.push(nextIterationData)
   }
 

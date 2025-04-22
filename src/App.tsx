@@ -47,6 +47,14 @@ function App() {
     console.log('Training data', trainingData)
   }
 
+  const handleToggleSelectRow = (iteration: number) => {
+    setTrainingData(prev =>
+      prev.map(row =>
+        row.iteration === iteration ? { ...row, selected: !row.selected } : row
+      )
+    )
+  }
+
   return (
     <div className="App">
       <Navbar
@@ -70,6 +78,7 @@ function App() {
         isConverged={isConverged}
         convergenceThreshold={convergenceThreshold}
         reporting={reporting}
+        onToggleSelectRow={handleToggleSelectRow}
       />
       {/*<h2>Data and Regression Line</h2>*/}
     </div>

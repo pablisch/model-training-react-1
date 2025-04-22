@@ -16,6 +16,7 @@ interface ResultsProps {
   isConverged: boolean
   convergenceThreshold: number
   reporting: ReportingLevel
+  onToggleSelectRow: (iteration: number) => void
 }
 
 const Results = ({
@@ -23,6 +24,7 @@ const Results = ({
   isConverged,
   convergenceThreshold,
   reporting,
+  onToggleSelectRow,
 }: ResultsProps) => {
   let lowestMseReductionIteration: NonNullTrainingIterationData | null = null
   let ordinalIndicator: OrdinalIndicator = ORDINAL_INDICATOR.nth
@@ -99,7 +101,13 @@ const Results = ({
   const resultsRows = (() => {
     if (reporting === REPORTING.full) {
       return trainingData.map(row => {
-        return <ResultsRow key={row.iteration} rowData={row} />
+        return (
+          <ResultsRow
+            key={row.iteration}
+            rowData={row}
+            onToggleSelectRow={onToggleSelectRow}
+          />
+        )
       })
     } else if (reporting === REPORTING.verbose) {
       const firstIterations = trainingData.slice(0, 10)
@@ -111,19 +119,33 @@ const Results = ({
         return (
           <>
             {firstIterations.map(row => (
-              <ResultsRow key={row.iteration} rowData={row} />
+              <ResultsRow
+                key={row.iteration}
+                rowData={row}
+                onToggleSelectRow={onToggleSelectRow}
+              />
             ))}
             <div className="ellipsis">
               ... set reporting to <strong>Full</strong> to see every iteration
             </div>
             {lastIterations.map(row => (
-              <ResultsRow key={row.iteration} rowData={row} />
+              <ResultsRow
+                key={row.iteration}
+                rowData={row}
+                onToggleSelectRow={onToggleSelectRow}
+              />
             ))}
           </>
         )
       } else {
         return trainingData.map(row => {
-          return <ResultsRow key={row.iteration} rowData={row} />
+          return (
+            <ResultsRow
+              key={row.iteration}
+              rowData={row}
+              onToggleSelectRow={onToggleSelectRow}
+            />
+          )
         })
       }
     } else {
