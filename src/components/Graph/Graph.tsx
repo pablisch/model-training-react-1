@@ -75,13 +75,26 @@ export const Graph: React.FC<Props> = ({
 
   const regressionLines = []
   for (const iteration of selectedIterations) {
+    // const regressionLine = [
+    //   { feature: 0, label: 0 + iteration.bias },
+    //   {
+    //     feature: maxGraphX,
+    //     label: iteration.weight * maxGraphX + iteration.bias,
+    //   },
+    //   { iteration: iteration.iteration },
+    // ]
     const regressionLine = [
-      { feature: 0, label: 0 + iteration.bias },
+      {
+        feature: minGraphX,
+        label: iteration.weight * minGraphX + iteration.bias,
+      },
       {
         feature: maxGraphX,
         label: iteration.weight * maxGraphX + iteration.bias,
       },
-      { iteration: iteration.iteration },
+      {
+        iteration: iteration.iteration,
+      },
     ]
     regressionLines.push(regressionLine)
   }
@@ -89,7 +102,7 @@ export const Graph: React.FC<Props> = ({
   // TODO calculate graph start and end lines using the slope formula and validated against the graph extents
 
   // Calculate regression line based on the range of the graph
-  const minFeature = 0
+  const minFeature = minGraphX
   const maxFeatureForLine = maxGraphX
   const regressionLine = [
     { feature: minFeature, label: weight * minFeature + bias },
@@ -156,6 +169,7 @@ export const Graph: React.FC<Props> = ({
             name={`Iteration ${line[2].iteration}`}
             data={line}
             line
+            shape={() => <></>}
             fill={colors[index % colors.length]} // cycle through colors
           />
         ))}
