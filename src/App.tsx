@@ -48,6 +48,10 @@ function App() {
   }
 
   const handleToggleSelectRow = (iteration: number) => {
+    const thisIteration = trainingData.find(row => row.iteration === iteration)
+    if (!thisIteration) return
+    const selectedRows = trainingData.filter(row => row.selected)
+    if (selectedRows.length > 8 && !thisIteration.selected) return
     setTrainingData(prev =>
       prev.map(row =>
         row.iteration === iteration ? { ...row, selected: !row.selected } : row
@@ -69,6 +73,7 @@ function App() {
       {trainingData.length > 0 && (
         <MainGraph
           inputData={inputDataExample1}
+          trainingData={trainingData}
           weight={trainingData[trainingData.length - 1].weight}
           bias={trainingData[trainingData.length - 1].bias}
         />

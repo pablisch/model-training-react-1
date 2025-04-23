@@ -10,6 +10,7 @@ export const inputDataExample1: InputData = {
     { feature: 3.43, label: 16 },
     { feature: 4.34, label: 15 },
     { feature: 4.42, label: 14 },
+    // { feature: 2.37, label: 23 },
     { feature: 2.37, label: 24 },
   ],
 }
