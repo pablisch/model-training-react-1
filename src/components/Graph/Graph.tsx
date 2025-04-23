@@ -86,6 +86,8 @@ export const Graph: React.FC<Props> = ({
     regressionLines.push(regressionLine)
   }
 
+  // TODO calculate graph start and end lines using the slope formula and validated against the graph extents
+
   // Calculate regression line based on the range of the graph
   const minFeature = 0
   const maxFeatureForLine = maxGraphX
