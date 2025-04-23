@@ -33,28 +33,38 @@ export const Graph: React.FC<Props> = ({
   const features = data.map(d => d.feature)
   const labels = data.map(d => d.label)
 
-  // X-axis and Y-axis increments
+  // Calculate max values for x and y with some arbitrary extension padding
+  const maxXValue = Math.max(...features) * arbitraryAxisExtension
+  const minXValue = Math.min(...features) * arbitraryAxisExtension
+  console.log('****()** Math.min(...features):', Math.min(...features))
+  const maxYValue = Math.max(...labels) * arbitraryAxisExtension
+  const minYValue = Math.min(...labels) * arbitraryAxisExtension
 
-  console.log('****()** inc 24:', helpers.findGraphIncrement(24))
-  console.log('****()** inc 25:', helpers.findGraphIncrement(25))
-  console.log('****()** inc 327:', helpers.findGraphIncrement(327))
+  const xAxisIncrement = helpers.findGraphIncrement(maxXValue - minXValue)
+  const yAxisIncrement = helpers.findGraphIncrement(maxYValue - minYValue)
 
-  // Calculate max values for x and y
-  const maxFeature = Math.max(...features) * arbitraryAxisExtension
-  console.log('****()** maxFeature:', maxFeature)
-  const maxLabel = Math.max(...labels) * arbitraryAxisExtension
-  console.log('****()** maxLabel:', maxLabel)
+  // Calculate limits for axes ending in ticks
+  const maxGraphX = Math.max(
+    Math.ceil(maxXValue / xAxisIncrement) * xAxisIncrement,
+    0
+  )
+  const minGraphX = Math.min(
+    Math.floor(minXValue / xAxisIncrement) * xAxisIncrement,
+    0
+  )
+  const maxGraphY = Math.max(
+    Math.ceil(maxYValue / yAxisIncrement) * yAxisIncrement,
+    0
+  )
+  const minGraphY = Math.min(
+    Math.floor(minYValue / yAxisIncrement) * yAxisIncrement,
+    0
+  )
+  console.log('****()** maxGraphX:', maxGraphX, 'minGraphX:', minGraphX)
+  console.log('****()** maxGraphY:', maxGraphY, 'minGraphY:', minGraphY)
 
-  console.log('****()** inc X:', helpers.findGraphIncrement(maxFeature))
-  console.log('****()** inc Y:', helpers.findGraphIncrement(maxLabel))
-
-  const xAxisIncrement = helpers.findGraphIncrement(maxFeature * 1.3)
-  const yAxisIncrement = helpers.findGraphIncrement(maxLabel * 1.3)
-
-  // Calculate the rounded limits for axes
-  const roundedMaxX = Math.ceil(maxFeature) + xAxisIncrement
-  const roundedMaxY = Math.ceil(maxLabel / yAxisIncrement) * yAxisIncrement
-  console.log('****()** roundedMaxX:', roundedMaxX)
+  const roundedMaxY = Math.ceil(maxYValue / yAxisIncrement) * yAxisIncrement
+  console.log('****()** maxGraphX:', maxGraphX)
   console.log('****()** roundedMaxY:', roundedMaxY)
 
   // Find selected iterations
@@ -68,8 +78,8 @@ export const Graph: React.FC<Props> = ({
     const regressionLine = [
       { feature: 0, label: 0 + iteration.bias },
       {
-        feature: roundedMaxX,
-        label: iteration.weight * roundedMaxX + iteration.bias,
+        feature: maxGraphX,
+        label: iteration.weight * maxGraphX + iteration.bias,
       },
       { iteration: iteration.iteration },
     ]
@@ -78,7 +88,7 @@ export const Graph: React.FC<Props> = ({
 
   // Calculate regression line based on the range of the graph
   const minFeature = 0
-  const maxFeatureForLine = roundedMaxX
+  const maxFeatureForLine = maxGraphX
   const regressionLine = [
     { feature: minFeature, label: weight * minFeature + bias },
     { feature: maxFeatureForLine, label: weight * maxFeatureForLine + bias },
@@ -95,7 +105,7 @@ export const Graph: React.FC<Props> = ({
           type="number"
           dataKey="feature"
           name="Feature"
-          domain={[0, roundedMaxX]}
+          domain={[minGraphX, maxGraphX]}
           label={{
             value: inputData.featureLabel,
             position: 'insideBottom',
@@ -103,8 +113,8 @@ export const Graph: React.FC<Props> = ({
             style: { fontWeight: 'bold', fill: '#333' },
           }}
           ticks={Array.from(
-            { length: roundedMaxX + 1 },
-            (_, i) => i * xAxisIncrement
+            { length: (maxGraphX - minGraphX) / xAxisIncrement + 1 },
+            (_, i) => minGraphX + i * xAxisIncrement
           )}
         />
 
@@ -113,7 +123,7 @@ export const Graph: React.FC<Props> = ({
           type="number"
           dataKey="label"
           name="Label"
-          domain={[0, roundedMaxY]}
+          domain={[minGraphY, maxGraphY]}
           label={{
             value: inputData.labelLabel,
             angle: -90,
@@ -121,8 +131,8 @@ export const Graph: React.FC<Props> = ({
             offset: 10,
           }}
           ticks={Array.from(
-            { length: roundedMaxY / yAxisIncrement + 1 },
-            (_, i) => i * yAxisIncrement
+            { length: (maxGraphY - minGraphY) / yAxisIncrement + 1 },
+            (_, i) => minGraphY + i * yAxisIncrement
           )}
         />
 

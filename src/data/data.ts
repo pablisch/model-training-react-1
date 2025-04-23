@@ -11,8 +11,8 @@ export const inputDataExample1: InputData = {
     { feature: 4.34, label: 15 },
     { feature: 4.42, label: 14 },
     { feature: 2.37, label: 24 },
-    { feature: -0.5, label: 25 },
-    { feature: 0.5, label: 27 },
+    { feature: -0.65, label: 25 },
+    { feature: 0.6, label: 27 },
     { feature: 4, label: 16 },
   ],
 }
