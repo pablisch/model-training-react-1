@@ -71,7 +71,7 @@ export const Graph: React.FC<Props> = ({
         feature: roundedMaxX,
         label: iteration.weight * roundedMaxX + iteration.bias,
       },
-      {iteration: iteration.iteration},
+      { iteration: iteration.iteration },
     ]
     regressionLines.push(regressionLine)
   }
@@ -130,7 +130,12 @@ export const Graph: React.FC<Props> = ({
         <Legend verticalAlign="top" align="center" />
 
         {/* Data points */}
-        <Scatter name="Data points" data={data} fill="#8884d8" />
+        <Scatter
+          name="Data points"
+          data={data}
+          fill="#8884d8"
+          legendType="none"
+        />
 
         {/* Regression line */}
         {regressionLines.map((line, index) => (
@@ -142,7 +147,6 @@ export const Graph: React.FC<Props> = ({
             fill={colors[index % colors.length]} // cycle through colors
           />
         ))}
-      
       </ScatterChart>
     </ResponsiveContainer>
   )
