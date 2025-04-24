@@ -29,6 +29,10 @@ export const Graph: React.FC<Props> = ({
   bias,
 }) => {
   const data = inputData.data
+  const pointsData = data.map(point => ({
+    xAxis: point.feature,
+    yAxis: point.label,
+  }))
   // Extract feature and label values
   const features = data.map(d => d.feature)
   const labels = data.map(d => d.label)
@@ -75,22 +79,14 @@ export const Graph: React.FC<Props> = ({
 
   const regressionLines = []
   for (const iteration of selectedIterations) {
-    // const regressionLine = [
-    //   { feature: 0, label: 0 + iteration.bias },
-    //   {
-    //     feature: maxGraphX,
-    //     label: iteration.weight * maxGraphX + iteration.bias,
-    //   },
-    //   { iteration: iteration.iteration },
-    // ]
     const regressionLine = [
       {
-        feature: minGraphX,
-        label: iteration.weight * minGraphX + iteration.bias,
+        xAxis: minGraphX,
+        yAxis: iteration.weight * minGraphX + iteration.bias,
       },
       {
-        feature: maxGraphX,
-        label: iteration.weight * maxGraphX + iteration.bias,
+        xAxis: maxGraphX,
+        yAxis: iteration.weight * maxGraphX + iteration.bias,
       },
       {
         iteration: iteration.iteration,
@@ -101,15 +97,6 @@ export const Graph: React.FC<Props> = ({
 
   // TODO calculate graph start and end lines using the slope formula and validated against the graph extents
 
-  // Calculate regression line based on the range of the graph
-  const minFeature = minGraphX
-  const maxFeatureForLine = maxGraphX
-  const regressionLine = [
-    { feature: minFeature, label: weight * minFeature + bias },
-    { feature: maxFeatureForLine, label: weight * maxFeatureForLine + bias },
-  ]
-  console.log('****()** regressionLine:', regressionLine)
-
   return (
     <ResponsiveContainer width="100%" height={400}>
       <ScatterChart>
@@ -118,7 +105,7 @@ export const Graph: React.FC<Props> = ({
         {/* X Axis with fixed increments */}
         <XAxis
           type="number"
-          dataKey="feature"
+          dataKey="xAxis"
           name="Feature"
           domain={[minGraphX, maxGraphX]}
           label={{
@@ -136,7 +123,7 @@ export const Graph: React.FC<Props> = ({
         {/* Y Axis with fixed increments */}
         <YAxis
           type="number"
-          dataKey="label"
+          dataKey="yAxis"
           name="Label"
           domain={[minGraphY, maxGraphY]}
           label={{
@@ -157,7 +144,7 @@ export const Graph: React.FC<Props> = ({
         {/* Data points */}
         <Scatter
           name="Data points"
-          data={data}
+          data={pointsData}
           fill="#8884d8"
           legendType="none"
         />
