@@ -18,16 +18,9 @@ const colors = ['#dd7f03', '#203e9f', '#7b1d9f', '#158b1f', '#dd1435']
 type Props = {
   inputData: InputData
   trainingData: TrainingData
-  weight: number
-  bias: number
 }
 
-export const Graph: React.FC<Props> = ({
-  inputData,
-  trainingData,
-  weight,
-  bias,
-}) => {
+export const Graph: React.FC<Props> = ({ inputData, trainingData }) => {
   const data = inputData.data
   const pointsData = data.map(point => ({
     xAxis: point.feature,
@@ -43,9 +36,13 @@ export const Graph: React.FC<Props> = ({
   console.log('****()** Math.min(...features):', Math.min(...features))
   const maxYValue = Math.max(...labels) * arbitraryAxisExtension
   const minYValue = Math.min(...labels) * arbitraryAxisExtension
+  
+  const xRange = Math.max(maxXValue, 0) - Math.min(minXValue, 0)
+  const yRange = Math.max(maxYValue, 0) - Math.min(minYValue, 0)
 
-  const xAxisIncrement = helpers.findGraphIncrement(maxXValue - minXValue)
-  const yAxisIncrement = helpers.findGraphIncrement(maxYValue - minYValue)
+  const xAxisIncrement = helpers.findGraphIncrement(xRange)
+  const yAxisIncrement = helpers.findGraphIncrement(yRange)
+  console.log("****()** x and y increments:", xAxisIncrement, yAxisIncrement )
 
   // Calculate limits for axes ending in ticks
   const maxGraphX = Math.max(
@@ -79,14 +76,47 @@ export const Graph: React.FC<Props> = ({
 
   const regressionLines = []
   for (const iteration of selectedIterations) {
+    const bias = iteration.bias
+    const weight = iteration.weight
+    let startX = minGraphX
+    let endX = maxGraphX
+    let startY = weight * minGraphX + bias
+    let endY = weight * maxGraphX + bias
+
+    const lowXIntercept = (minGraphY - bias) / weight
+    const highXIntercept = (maxGraphY - bias) / weight
+    if (weight > 0) {
+      if (highXIntercept < maxGraphX) {
+        endX = highXIntercept
+        endY = iteration.weight * endX + iteration.bias
+      }
+      if (lowXIntercept > minGraphX) {
+        startX = lowXIntercept
+        startY = iteration.weight * startX + iteration.bias
+      }
+    }
+    if (weight < 0) {
+      if (highXIntercept > minGraphX) {
+        startX = highXIntercept
+        startY = iteration.weight * startX + iteration.bias
+      }
+      if (lowXIntercept < maxGraphX) {
+        endX = lowXIntercept
+        endY = iteration.weight * endX + iteration.bias
+      }
+    }
+    console.log(
+      `****()** lowXIntercept: ${lowXIntercept} weight: ${weight} iter.: ${iteration.iteration} `
+    )
+
     const regressionLine = [
       {
-        xAxis: minGraphX,
-        yAxis: iteration.weight * minGraphX + iteration.bias,
+        xAxis: startX,
+        yAxis: startY,
       },
       {
-        xAxis: maxGraphX,
-        yAxis: iteration.weight * maxGraphX + iteration.bias,
+        xAxis: endX,
+        yAxis: endY,
       },
       {
         iteration: iteration.iteration,

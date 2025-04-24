@@ -6,19 +6,12 @@ import './Graph.css'
 type GraphProps = {
   inputData: InputData
   trainingData: TrainingData
-  weight: number
-  bias: number
 }
 
-const MainGraph = ({ inputData, trainingData, weight, bias }: GraphProps) => {
+const MainGraph = ({ inputData, trainingData }: GraphProps) => {
   return (
     <div className="main-graph-container">
-      <Graph
-        inputData={inputData}
-        trainingData={trainingData}
-        weight={weight}
-        bias={bias}
-      />
+      <Graph inputData={inputData} trainingData={trainingData} />
     </div>
   )
 }

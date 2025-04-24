@@ -71,12 +71,7 @@ function App() {
         onTrain={handleModelTraining}
       />
       {trainingData.length > 0 && (
-        <MainGraph
-          inputData={inputDataExample1}
-          trainingData={trainingData}
-          weight={trainingData[trainingData.length - 1].weight}
-          bias={trainingData[trainingData.length - 1].bias}
-        />
+        <MainGraph inputData={inputDataExample1} trainingData={trainingData} />
       )}
       <Results
         trainingData={trainingData}

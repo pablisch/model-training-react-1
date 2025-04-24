@@ -18,6 +18,22 @@ export const inputDataExample1: InputData = {
   ],
 }
 
+// export const inputDataExample1: InputData = {
+//   featureLabel: 'weight/pounds(1000s)',
+//   labelLabel: 'mpg',
+//   data: [
+//     { feature: -53.5, label: 18 },
+//     { feature: -53.69, label: 15 },
+//     { feature: -53.44, label: 18 },
+//     { feature: -53.43, label: 16 },
+//     { feature: -54.34, label: 15 },
+//     { feature: -54.42, label: 14 },
+//     { feature: -52.37, label: 24 },
+//     { feature: -50.6, label: 27 },
+//     { feature: -54, label: 16 },
+//   ],
+// }
+
 export const initialIterationData: TrainingIterationData = {
   mse: null,
   weight: 0,
